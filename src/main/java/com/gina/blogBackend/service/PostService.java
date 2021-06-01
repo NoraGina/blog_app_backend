@@ -1,5 +1,6 @@
 package com.gina.blogBackend.service;
 
+import com.gina.blogBackend.exception.PostNotFoundException;
 import com.gina.blogBackend.model.Post;
 import com.gina.blogBackend.payload.dto.PostDto;
 import com.gina.blogBackend.repository.PostRepository;
