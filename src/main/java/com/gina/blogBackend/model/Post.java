@@ -56,6 +56,9 @@ public class Post {
     private int countDislike;
 
     @Column
+    private int countComments;
+
+    @Column
     private int countViews;
 
     public Post() {
@@ -163,5 +166,13 @@ public class Post {
 
     public void setUpdateTime(LocalTime updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public int getCountComments() {
+        return countComments;
+    }
+
+    public void setCountComments(int countComments) {
+        this.countComments = countComments;
     }
 }
