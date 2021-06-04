@@ -50,6 +50,10 @@ public class PostController {
         postDto.setCountDislike(0);
         postDto.setCountComments(0);
         postDto.setCountViews(0);
+        postDto.setDate(LocalDate.now());
+        postDto.setTime(LocalTime.now());
+        postDto.setUpdateTime(LocalTime.now());
+        postDto.setUpdateDate(LocalDate.now());
         postService.createPost(postDto);
         return new ResponseEntity(HttpStatus.OK);
     }
