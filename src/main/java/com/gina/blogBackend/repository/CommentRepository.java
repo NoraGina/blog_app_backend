@@ -14,7 +14,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     Comment findByIdAndPostId(Long id, Long postId);
 
     List<Comment> findAllCommentsByPostId(Long postId);
-   
+
     @Override
     void delete(Comment comment);
     @Query("SELECT COUNT(c) FROM Comment c WHERE post.id=:id")
