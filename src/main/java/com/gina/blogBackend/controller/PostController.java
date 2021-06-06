@@ -90,6 +90,7 @@ public class PostController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity<PostDto> getSinglePost(@PathVariable @RequestBody Long id) {
+        postService.updateCountViews(id, postRepository.getOne(id).getCountViews()+1);
         return new ResponseEntity<>(postService.readSinglePost(id), HttpStatus.OK);
     }
 
@@ -110,13 +111,6 @@ public class PostController {
 
     }
 
-    @PutMapping("/{id}/view")
-    public void updateView(@PathVariable(value = "id") Long postId,
-                           @RequestBody PostDto postDto) throws ResourceNotFoundException {
-        postDto = postService.readSinglePost(postId);
-
-        postService.updateCountViews(postId, postDto.getCountViews()+1);
-
-    }
+    
 
 }
