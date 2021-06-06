@@ -64,6 +64,7 @@ public class UserController {
                 roles));
     }
 
+
     @PostMapping("/signUp")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest){
         if(userRepository.existsByUsername(signUpRequest.getUsername())){

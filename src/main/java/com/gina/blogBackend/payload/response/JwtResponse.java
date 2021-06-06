@@ -9,7 +9,7 @@ public class JwtResponse {
     private Long id;
     private String username;
     private String email;
-    private List<String> roles;
+    private List<String>roles;
 
     public JwtResponse() {
     }
@@ -22,11 +22,17 @@ public class JwtResponse {
         this.roles = roles;
     }
 
-    public String getToken() {
+    public JwtResponse(Long id, String username, String email) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+    }
+
+    public String getAccessToken() {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setAccessToken(String token) {
         this.token = token;
     }
 
