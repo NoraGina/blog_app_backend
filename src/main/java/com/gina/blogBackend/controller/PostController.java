@@ -1,9 +1,13 @@
 package com.gina.blogBackend.controller;
 
 import com.gina.blogBackend.exception.ResourceNotFoundException;
+import com.gina.blogBackend.model.Comment;
 import com.gina.blogBackend.model.Post;
+import com.gina.blogBackend.payload.dto.CommentDto;
 import com.gina.blogBackend.payload.dto.PostDto;
+import com.gina.blogBackend.repository.CommentRepository;
 import com.gina.blogBackend.repository.PostRepository;
+import com.gina.blogBackend.service.CommentService;
 import com.gina.blogBackend.service.PostService;
 import com.gina.blogBackend.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +19,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/posts")
@@ -34,6 +40,12 @@ public class PostController {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("/all")
 
@@ -111,6 +123,28 @@ public class PostController {
 
     }
 
-    
+    @GetMapping("/{postId}/comments")
+    public ResponseEntity <List<Comment>> getAllCommentsByPostId(@PathVariable (value = "postId") Long postId
+    ) {
+        return new ResponseEntity<>(commentRepository.findAllCommentsByPostId(postId), HttpStatus.OK);
+    }
+
+    @PostMapping("/{postId}/comment")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity createComment(@PathVariable (value = "postId") Long postId,
+                                        @Valid @RequestBody CommentDto comment, @AuthenticationPrincipal UserDetails currentUser) {
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        if(optionalPost.isPresent()){
+            final Post post = optionalPost.get();
+            comment.setPost(post);
+            comment.setUsername(currentUser.getUsername());
+            commentService.saveComment(comment);
+            postService.updateCountComments(postId,post.getCountComments()+1 );
+        }else{
+            throw new ResourceNotFoundException("Post Id "+ postId+ " not found");
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 }

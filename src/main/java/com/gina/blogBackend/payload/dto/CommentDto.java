@@ -21,6 +21,8 @@ public class CommentDto {
 
     private String username;
 
+    private Post post;
+
     public Long getId() {
         return id;
     }
@@ -68,6 +70,4 @@ public class CommentDto {
     public void setPost(Post post) {
         this.post = post;
     }
-
-    private Post post;
 }
