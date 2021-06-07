@@ -106,6 +106,13 @@ public class PostController {
         return new ResponseEntity<>(postService.readSinglePost(id), HttpStatus.OK);
     }
 
+    @GetMapping("/getOne/{id}")
+    public ResponseEntity<PostDto> getPost(@PathVariable @RequestBody Long id) {
+        
+        return new ResponseEntity<>(postService.readSinglePost(id), HttpStatus.OK);
+    }
+
+
     @PutMapping("/{id}/like")
     public PostDto updateLike(@PathVariable(value = "id") Long postId,@RequestBody PostDto postDto)throws ResourceNotFoundException{
         postDto = postService.readSinglePost(postId);
